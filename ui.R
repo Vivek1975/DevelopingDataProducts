@@ -27,12 +27,11 @@ shinyUI(fluidPage(
       h3("Division:"),
       textOutput("out4"),
       tabsetPanel(
-        tabPanel("Application Documentation", htmlOutput("report")),
-        tabPanel("Shiny User Interface", htmlOutput("ui")), 
-        tabPanel("Shiny Server", htmlOutput("server"))
+        tabPanel("Application Documentation", htmlOutput("report"))
+    #    tabPanel("Shiny User Interface", htmlOutput("ui")), 
+    #    tabPanel("Shiny Server", htmlOutput("server"))
       ),
-      h5("shinyUI and shinyServer Code", a("Link to Github", href="www.google.com")),
-      p(strong(em("Github repository:",a("Developing Data Products - Link to Code",href="https://github.com/CrazyFarang/DevelopingDataProducts"))))
+      p(strong(em("Github repository Link:",a("Developing Data Products - Link to Code",href="https://github.com/Vivek1975/DevelopingDataProducts"))))
       )
     )
   )

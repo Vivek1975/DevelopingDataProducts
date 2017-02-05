@@ -19,18 +19,16 @@ generateReport <- function(par) {
                  
                  setProgress(1)
                })
-  
   readr::read_file(out.markdown)
 }
 
 shinyServer(function(input, output) {
-  
   output$out1 <- renderText(as.numeric(input$box1) + as.numeric(input$box2))
   output$out2 <- renderText(as.numeric(input$box1) - as.numeric(input$box2))
   output$out3 <- renderText(as.numeric(input$box1) * as.numeric(input$box2))
   output$out4 <- renderText(as.numeric(input$box1) / as.numeric(input$box2))
   output$report <- renderText({ HTML(generateReport("Week4ProjectDocumentation.Rmd")) })
-  output$ui <- renderText({ HTML(generateReport("UI.Rmd")) })
-  output$server <- renderText({ HTML(generateReport("Server.Rmd")) })
+#  output$ui <- renderText({ HTML(generateReport("UI.Rmd")) })
+#  output$server <- renderText({ HTML(generateReport("Server.Rmd")) })
 })
 
