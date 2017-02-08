@@ -6,29 +6,29 @@
 # 
 #    http://shiny.rstudio.com/
 #
-
 library(shiny)
 
-generateReport <- function(par) {
-  out.markdown <- ''
-  withProgress(message = 'Generating Report',
-               value = 0, {
-                 out.markdown <- rmarkdown::render(
-                   input = par,
-                   output_format = "html_document")
-                 
-                 setProgress(1)
-               })
-  readr::read_file(out.markdown)
-}
-
+# Define server logic for random distribution application
 shinyServer(function(input, output) {
-  output$out1 <- renderText(as.numeric(input$box1) + as.numeric(input$box2))
-  output$out2 <- renderText(as.numeric(input$box1) - as.numeric(input$box2))
-  output$out3 <- renderText(as.numeric(input$box1) * as.numeric(input$box2))
-  output$out4 <- renderText(as.numeric(input$box1) / as.numeric(input$box2))
-  output$report <- renderText({ HTML(generateReport("Week4ProjectDocumentation.Rmd")) })
-#  output$ui <- renderText({ HTML(generateReport("UI.Rmd")) })
-#  output$server <- renderText({ HTML(generateReport("Server.Rmd")) })
-})
 
+  
+  # Simulate random numbers and generate a histograms of the data
+  output$plot <- renderPlot({
+
+    mean <- input$mean
+    sd <- input$sd
+    n <- input$n
+    size <- input$size
+    prob <- input$prob
+    rate <- input$rate
+    min <- input$min
+    max <- input$max
+    switch(input$dist, "norm"= hist(rnorm(n,mean,sd),main = paste("Histogram of Normal Distribution")),
+                       "binom" = hist(rbinom(n,size,prob),main = paste("Histogram of Binomial Distribution")),
+                       "exp" = hist(rexp(n,rate),main = paste("Histogram of Exponential Distribution")),
+                       "unif" = hist(runif(n,min,max),main = paste("Histogram of Uniform Distribution")))
+
+  })
+ 
+  
+})

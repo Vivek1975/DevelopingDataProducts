@@ -7,32 +7,89 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny) 
+library(shiny)
 
+# Define UI for random distribution application 
 shinyUI(fluidPage(
-  titlePanel("Tiny Calculator"),
+  
+  # Application title
+  titlePanel("Choose Distribution and Change Parameters"),
+  fluidRow(column(4,
+                  includeText("Inculde.txt"))),
+  # Sidebar with controls to select the random distribution type
+  # and change parameters. 
   sidebarLayout(
     sidebarPanel(
-      textInput("box1", "Enter first number:", value = 0), 
-      textInput("box2", "Enter second number:", value = 0),
-      submitButton("Submit")
-     ),
+      radioButtons("dist", "Distribution type:",
+                   c("Normal" = "norm",
+                     "Binomial" = "binom",
+                     "Uniform" = "unif",
+                     "Exponential" = "exp")),
+      br(),
+      sliderInput("n", 
+                  "Number of observations:", 
+                  value = 500,
+                  min = 1, 
+                  max = 1000),
+      br(),
+      conditionalPanel(
+                  "input.dist == 'norm'",
+                  sliderInput("mean", 
+                  "Mean:", 
+                  value = 0,
+                  min = -10, 
+                  max = 10),
+                  br(),
+                  sliderInput("sd", 
+                  "Standard Deviation", 
+                  value = 1,
+                  min = 0, 
+                  max = 10)),
+      conditionalPanel(
+        "input.dist == 'binom'",
+        
+        sliderInput("size", 
+                    "Number of Trials:", 
+                    value = 1,
+                    min = 0, 
+                    max = 1000),
+        br(),
+        sliderInput("prob", 
+                    "Probability:", 
+                    value = 0.5,
+                    min = 0, 
+                    max = 1)),
+      conditionalPanel(
+        "input.dist == 'unif'",
+       
+        sliderInput("min", 
+                    "Minimum:", 
+                    value = 0,
+                    min = 0, 
+                    max = 1000),
+        br(),
+        sliderInput("max", 
+                    "Maximum:", 
+                    value = 1,
+                    min = 0, 
+                    max = 1000)),
+      conditionalPanel(
+        "input.dist == 'exp'",
+        
+        sliderInput("rate", 
+                    "Rate:", 
+                    value = 1,
+                    min = 0, 
+                    max = 1000))
+      
+    ),
+    
+    # Show a tabset that includes a plot
     mainPanel(
-      h3("Addition:"),
-      textOutput("out1"),
-      h3("Subtraction:"),
-      textOutput("out2"),
-      h3("Multiplication:"),
-      textOutput("out3"),
-      h3("Division:"),
-      textOutput("out4"),
-      tabsetPanel(
-        tabPanel("Application Documentation", htmlOutput("report"))
-    #    tabPanel("Shiny User Interface", htmlOutput("ui")), 
-    #    tabPanel("Shiny Server", htmlOutput("server"))
-      ),
-      p(strong(em("Github repository Link:",a("Developing Data Products - Link to Code",href="https://github.com/Vivek1975/DevelopingDataProducts"))))
+      tabsetPanel(type = "tabs", 
+                  tabPanel("Plot", plotOutput("plot"))
+                
       )
     )
   )
-)
+))
